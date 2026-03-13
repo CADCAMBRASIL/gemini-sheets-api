@@ -15,28 +15,18 @@ def gemini():
 
     url = f"https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key={API_KEY}"
 
- 
     payload = {
         "contents": [
             {"role": "user", "parts": [{"text": prompt}]}
         ]
     }
- 
-   r = requests.post(url, json=payload, timeout=60)
-data = r.json()
 
-# 🔍 Extrair texto de forma segura
-if "candidates" not in data:
-    return jsonify({"text": "⚠️ Erro da API Gemini:\n" + str(data)})
+    r = requests.post(url, json=payload, timeout=60)
+    data = r.json()
 
-parts = data["candidates"][0]["content"].get("parts", [])
-text = "\n".join(p.get("text", "") for p in parts).strip()
-
-if not text:
-    return jsonify({"text": "⚠️ Gemini respondeu sem texto útil."})
-
-return jsonify({"text": text})
-
+    # 🔍 Extrair texto de forma segura
+    if "candidates" not in data:
+        return jsonify({"text": "⚠️ Erro da API Gemini:\n" + str(data)})
 
     parts = data["candidates"][0]["content"].get("parts", [])
     text = "\n".join(p.get("text", "") for p in parts).strip()
