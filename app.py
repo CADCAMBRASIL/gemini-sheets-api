@@ -21,7 +21,7 @@ def gemini():
             {"role": "user", "parts": [{"text": prompt}]}
         ]
     }
-
+ 
     r = requests.post(url, json=payload, timeout=60)
     data = r.json()
 
